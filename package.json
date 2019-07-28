@@ -20,6 +20,7 @@
     "bootstrap": "^4.3.1",
     "css-loader": "^1.0.1",
     "express": "^4.17.1",
+    "morgan": "^1.9.1",
     "mysql": "^2.17.1",
     "node-sass": "^4.12.0",
     "react": "^16.8.6",
@@ -33,6 +34,7 @@
     "webpack-node-externals": "^1.7.2"
   },
   "devDependencies": {
+    "@types/morgan": "^1.7.36",
     "nodemon": "^1.19.1",
     "npm-run-all": "^4.1.3"
   }

@@ -4,17 +4,14 @@ import db from '../db'
 
 const router = express.Router();
 
-router.get('/api/hello', (req, res, next) => {
-    res.json('World');
-});
 
-router.get('api/blogs', async (req, res) => {
+router.get('/', async (req, res) => {
     //try to call for the response from the db
     try {
         //put the response to get all blogs in a variable
-        let r = await db.Blogs.all();
+        let blogs = await db.Blogs.all();
         //send that variable to front
-        res.send(r)
+        res.json(blogs)
     }
     //if it fails, send error status
     catch (e) {
@@ -23,8 +20,5 @@ router.get('api/blogs', async (req, res) => {
     }
 })
 
-
-
-
-
+//exporting apiRouter 
 export default router;
