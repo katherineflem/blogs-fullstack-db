@@ -2,6 +2,7 @@ import * as mysql from 'mysql';
 import config from '../config'
 //every table we have, import it into the index and export it back out
 import Blogs from './queries/blogs'
+import Tags from './queries/tags'
 
 //create mysql connection
 export const Connection = mysql.createConnection(config.mysql)//mysql has connection function which you pass in your mysql config details
@@ -12,15 +13,10 @@ Connection.connect(err => {
     } console.log(err)
 });
 
-// Connection.connect(function (err) {
-//     if (err) {
-//         console.error('error connecting: ' + err.stack);
-//         return;
-//     }
 
-// });
 
 
 export default{
-    Blogs
+    Blogs,
+    Tags
 }
