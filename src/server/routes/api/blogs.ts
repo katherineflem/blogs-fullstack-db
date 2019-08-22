@@ -1,14 +1,23 @@
 import * as express from 'express';
 //import your database that has the functions you will use to get blogs etc
-import db from '../db'
+import db from '../../db'
 
+//express router- start it up
 const router = express.Router();
 
+const isAdmin: express.RequestHandler=(req,res,next)=>{
+    if(req.user || req.user.role !== 'admin'){
+        return res.sendStatus(401)
+    }else{
+        return next()
+    }
+}
 
+//call functions on router that take in a path (ENDPOINT) and handlers (use these to get info out- a request or response)
 router.get('/', async (req, res) => {
     //try to call for the response from the db
     try {
-        //put the response to get all blogs in a variable
+        //put the response to get all blogs in a variable; the response is waiting on the database to resolve the promise with the results and then send them to this endpoint
         let blogs = await db.Blogs.all();
         //send that variable to front
         res.json(blogs)
@@ -16,13 +25,13 @@ router.get('/', async (req, res) => {
     //if it fails, send error status
     catch (e) {
         console.log(e);
-        res.sendStatus(500)
+        res.sendStatus(500)//will see this in console or terminal if promise fails
     }
 })
 
-router.get(`/:id`, async(req,res)=>{
+router.get(`/:id`, isAdmin, async(req,res)=>{
     try{
-        let [blog]:any= await db.Blogs.one(req.params.id);
+        let [blog]:any= await db.Blogs.one(req.params.id);//requests will have paramaters that you create in the queries- what it needs to fulfill the request
         res.json(blog);
     }catch(e){
         console.log(e);
@@ -31,7 +40,7 @@ router.get(`/:id`, async(req,res)=>{
 })
 
 //POST A BLOG POST
-router.post('/', async (req, res)=>{
+router.post('/', isAdmin, async (req, res)=>{
     try{
         let title= req.body.title
         let content= req.body.content
@@ -45,7 +54,7 @@ router.post('/', async (req, res)=>{
 })
 
 //EDIT BLOG POST
-router.put('/:id', async (req,res)=>{
+router.put('/:id', isAdmin,  async (req,res)=>{
     try{
         let id= req.params.id
         let content= req.body.content
@@ -58,19 +67,8 @@ router.put('/:id', async (req,res)=>{
     }
 })
 
-//DELETE BLOG POST-- see tags route for this 
-// router.delete('/:id', async (req,res)=>{
-//     try{
-//         let id= req.params.id
-//         let deletepost= await db.Blogs.deleteblog(id);
-//         res.json(deletepost)
-//     }catch(e){
-//         console.log(e);
-//         res.sendStatus(500)
-//     }
-// })
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', isAdmin, async (req, res) => {
     try {
         await db.Tags.deleteblogtags(req.params.id)
         await db.Blogs.deleteblog(req.params.id);

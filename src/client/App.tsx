@@ -7,6 +7,7 @@ import Details from './components/Details'
 import AddBlog from './components/AddBlog'
 import Editblog from './components/Editblog';
 
+//REact Stateless Functional Component
 const App: React.SFC<IAppProps> = props => {
     return (
         <Router>

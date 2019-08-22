@@ -1,14 +1,12 @@
-//where you want your routes logic
+import authRouter from './auth'
+import { Router } from 'express';
+import apiRouter from './api'
 
-import {Router} from 'express';
-import blogsRouter from './blogs';
-import tagsRouter from './tags'
 
-const router=Router()
+const router= Router()
 
-router.use('/blogs', blogsRouter);
+router.use ('/api', apiRouter)
 
-router.use('/tags', tagsRouter)
+router.use('/auth', authRouter)
 
-export default router;
-
+export default router
