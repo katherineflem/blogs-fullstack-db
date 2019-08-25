@@ -8,7 +8,7 @@ export const findOneToken = async(id:number, token:string)=>Query("SELECT * from
 
 export const insertToken = async (userid:number)=>Query("INSERT INTO tokens (userid) VALUES(?)", [userid])
 
-export const updateRow = async (id:number, token:string)=>Query("UPDATE tokens SET token =? WHERE id=?", [id, token])
+export const updateRow = async (token:string, id:number)=>Query(`UPDATE tokens SET token=?  WHERE id=${id}`, [token])
 
 //insert tokens
 //when we insert these tokens we are inserting a value into the tokens table wit the user who is trying to login

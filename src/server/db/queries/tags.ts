@@ -12,21 +12,12 @@ export const getalltags = async () =>Query("SELECT * from tags")
 
 //logic to get one blog tag for details display
 
-export const getblogtag = async (blogid: number) =>Query('CALL spBlogTags(?)', [blogid])
+export const getblogtag = async (blogid:number) =>Query('CALL spBlogTags(?)', [blogid])
 
 
 export const deleteblogtags = async (id: number) =>Query("DELETE from blogtags WHERE blogid=?", [id])
 
-//     return new Promise((resolve, reject) => {
-//         Connection.query(`DELETE FROM blogtags WHERE blogid=${id}`, (err, results) => {
-//             if (err) {
-//                 return reject(err)
-//             } else {
-//                 return resolve(results)
-//             }
-//         })
-//     })
-// }
+
 
 export default {
     getblogtag,

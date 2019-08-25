@@ -7,43 +7,10 @@ export const findOneByEmail= async (email:string)=>Query('SELECT * from authors 
 
 export const findOneById = async (id:number)=>Query("SELECT * from authors WHERE ID=? LIMIT 1", [id])
 
-export const insertUser = async (user: any)=>Query("INSERT INTO authors (email, name, password) VALUES ?", user)
+export const insertUser = async (name:string, email:string, password:string)=>Query('INSERT INTO authors (name, email, password) VALUES(?)', [name, email, password])
 
-// export const findOneByEmail = async (email: string) => {
-//     return new Promise((resolve, reject) => {
-//         Connection.query(`SELECT * from authors WHERE email = '${email}' LIMIT 1`, (err, results) => {
-//             if (err) {
-//                 return reject(err);
-//             } else {
-//                 return resolve(results)
-//             }
-//         })
-//     })
-// }
-// //
-// export const findOneById = async (id: number) => {
-//     return new Promise((resolve, reject) => {
-//         Connection.query(`SELECT * from authors WHERE ID= ${id} LIMIT 1`, (err, results) => {
-//             if (err) {
-//                 return reject(err)
-//             } else {
-//                 return resolve(results)
-//             }
-//         })
-//     })
-// }
-//user is an object? where is this obj defined?
-// export const insert = async (user: any) => {
-//     return new Promise((resolve, reject) => {
-//         Connection.query(`INSERT INTO authors (email, name, password) VALUES ?`, user, (err, results)  => {
-//             if (err) {
-//                 reject(err)
-//             } else {
-//                 resolve(results)
-//             }
-//         })
-//     })
-// }
+
+
 
 export default {
     findOneByEmail,

@@ -65,8 +65,9 @@ const AddBlog: React.SFC<IAddBlogProps> = props => {
                         onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelectedTag(e.target.value)}>
                         <option>Choose Tag</option>
                         {tags.map(tag => {
-                            <option key={tag.id} value={tag.id}>{tag.name}</option>
-                            console.log(tag.name)
+                            return (
+                                <option key={tag.id} value={tag.id}>{tag.name}</option>
+                            )
                         })}
                     </select>
 

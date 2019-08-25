@@ -20,24 +20,26 @@ import config from '../../config'
 //pAYload is the body
 //going to be receiving some type of payload to create our token with- create a generic type
 export const CreateToken = async (payload: IPayload) => {
-    let {insertId}: any = await db.Tokens.insertToken(payload.userid); //tokenid is the inserted row in the tokens table, these are auto-incrementing
+    let {insertId}: any = await db.Tokens.insertToken(payload.userid); //inserted row in the tokens table, these are auto-incrementing
     //then we are modifying our payload
+    //we want the token id to equal the id that was just inserted?
     payload.accesstokenid = insertId;// insertId is the default mysql response for what was just inserted
     //generating a unique signature on the token payload 
     //just makes ecrytped token more complicated by adding a string to it
     payload.unique = crypto.randomBytes(32).toString('hex');//hex is a type of code like the color codes
     //json webtoken will be signing our payload with a secret key that we define in our config
     let token = await jwt.sign(payload, config.auth.secret)
+    console.log(token)
     //update the row with new token value
-    await db.Tokens.updateRow(payload.accesstokenid, token);
+    await db.Tokens.updateRow(token, payload.accesstokenid);
     return token;
 };
 //jwt decode the token to get a payload
 //find that payload in our tokens table to verify it
 //return the payloadm otherwise throw an error
-export const ValidToken = async (token: string) => {
+export const ValidateToken = async (token: string) => {
     //get the payload from the token- provide the generic to jwt as well
-    let payload: IPayload = <IPayload>jwt.decode(token);
+    let payload = <IPayload>jwt.decode(token);
     //getone respond with an array with obj inside so we do array destructuring
     let [accesstokenid]:any  = await db.Tokens.findOneToken(payload.accesstokenid, token);
     //if there is no accesstokenid then we will throw an error

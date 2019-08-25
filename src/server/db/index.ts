@@ -8,31 +8,31 @@ import Tokens from './queries/tokens'
 
 //create mysql connection
 
-
 export const pool = mysql.createPool(config.mysql)
 
 
 //create Query helper function 
-export const Query = (query:string, values?: any)=>{
-    return new Promise ((resolve, reject)=>{
-        pool.query(query, [values], (err,results)=>{
-            if(err) reject(err);
-            return resolve (results);
+//create a function called Query that takes in two args
+//define your args with ts -- first arg is a string which is the query, second is values that need to be extracted or filled in from the db (optional)
+//going to return a Promise which will resolve with values or reject with a reason why
+//call pool.query which is a mysql query function 
+//takes in a string (the query), values(our values) and a callback function that will 
+export const Query = (query: string, values?: any) => {
+    return new Promise((resolve, reject) => {
+        pool.query(query, [values], (err, results) => { //err and results isnt run unless called by its succeeding logic 
+            if (err) {
+                reject(err)
+            } else {
+                return resolve(results);
+            }
         });
     })
 }
-
-// export const Connection = mysql.createConnection(config.mysql)//mysql has connection function which you pass in your mysql config details
-
-// Connection.connect(err => { 
-//     if(err){
-//     console.log('connected as id' + Connection.threadId)
-//     } console.log(err)
-// });
+// so you are promising that this query function is going to use mysql to query the database, extract some values and resolve with the results 
 
 
 //export your queries here for use everywhere else
-export default{
+export default {
     Blogs,
     Tags,
     Users,

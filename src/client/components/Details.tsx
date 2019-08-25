@@ -26,8 +26,8 @@ const Details: React.SFC<IDetailsProps> = props => {
 
     const getTags = async () => {
         try {
-            let r = await fetch(`/api/tags/`)//once I figure out how to get tags attached to new blogs then I will add in params.id endpoint
-            let [tag] = await r.json();
+            let r = await fetch('/api/tags/')
+            let tag = await r.json();
             setTags(tag);
             console.log(tag)
         } catch (e) {

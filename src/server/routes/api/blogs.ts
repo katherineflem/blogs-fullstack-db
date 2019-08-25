@@ -1,13 +1,15 @@
-import * as express from 'express';
+import {Router, RequestHandler }from 'express';
+
 //import your database that has the functions you will use to get blogs etc
 import db from '../../db'
 
 //express router- start it up
-const router = express.Router();
+const router = Router();
 
-const isAdmin: express.RequestHandler=(req,res,next)=>{
+//validate the users ROLE are they an admin (can they edit)
+const isAdmin: RequestHandler=(req,res,next)=>{
     if(req.user || req.user.role !== 'admin'){
-        return res.sendStatus(401)
+        return res.sendStatus(401);
     }else{
         return next()
     }
@@ -29,7 +31,7 @@ router.get('/', async (req, res) => {
     }
 })
 
-router.get(`/:id`, isAdmin, async(req,res)=>{
+router.get(`/:id`, async(req,res)=>{
     try{
         let [blog]:any= await db.Blogs.one(req.params.id);//requests will have paramaters that you create in the queries- what it needs to fulfill the request
         res.json(blog);
@@ -54,7 +56,7 @@ router.post('/', isAdmin, async (req, res)=>{
 })
 
 //EDIT BLOG POST
-router.put('/:id', isAdmin,  async (req,res)=>{
+router.put('/:id', isAdmin, async (req,res)=>{
     try{
         let id= req.params.id
         let content= req.body.content
