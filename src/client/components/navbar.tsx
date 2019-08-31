@@ -6,8 +6,8 @@ const Navbar: React.SFC<INavProps> = props => {
         <>
             <nav className="navbar justify-content-around">
                 <form className="form-inline">
-                    <NavLink to='/'className="btn btn-outline-info text-dark" type="button">Home</NavLink>
-                    <NavLink to='/createblog' className="btn btn-outline-info ml-3 text-dark" type="button">Create Blog</NavLink>
+                    <NavLink to='/'className="btn text-info" type="button">Home</NavLink>
+                    <NavLink to='/createblog' className="btn ml-3 text-info" type="button">Create Blog</NavLink>
                 </form>
             </nav>
         </>

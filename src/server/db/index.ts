@@ -2,12 +2,14 @@ import * as mysql from 'mysql';
 import config from '../config'
 //every table we have, import it into the index and export it back out
 import Blogs from './queries/blogs'
-import Tags from './queries/tags'
 import Users from './queries/users'
 import Tokens from './queries/tokens'
+import blogtags from './queries/blogtags'
+
+//CONNECTING DB TO APP
+//CREATING QUERY HELPER FUNCTION
 
 //create mysql connection
-
 export const pool = mysql.createPool(config.mysql)
 
 
@@ -34,7 +36,7 @@ export const Query = (query: string, values?: any) => {
 //export your queries here for use everywhere else
 export default {
     Blogs,
-    Tags,
     Users,
-    Tokens
+    Tokens,
+    blogtags
 }

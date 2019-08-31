@@ -7,8 +7,8 @@ import db from '../../db'
 const router = Router();
 
 //validate the users ROLE are they an admin (can they edit)
-const isAdmin: RequestHandler=(req,res,next)=>{
-    if(req.user || req.user.role !== 'admin'){
+const isGuest: RequestHandler=(req,res,next)=>{
+    if(!req.user || req.user.role !== 'guest'){
         return res.sendStatus(401);
     }else{
         return next()
@@ -42,21 +42,23 @@ router.get(`/:id`, async(req,res)=>{
 })
 
 //POST A BLOG POST
-router.post('/', isAdmin, async (req, res)=>{
+router.post('/', isGuest, async (req, res)=>{
     try{
         let title= req.body.title
         let content= req.body.content
         let authorid= req.body.authorid
-        let blogpost= await db.Blogs.post(authorid, title, content)
-        console.log(blogpost)
+        let blogpost:any= await db.Blogs.post(authorid, title, content)
+        await db.blogtags.insertblogtags(blogpost.insertId, req.body.selectedtag)//getting a list of tags
         res.json(blogpost)
     }catch(e){
         console.log(e)
     }
 })
 
+
+
 //EDIT BLOG POST
-router.put('/:id', isAdmin, async (req,res)=>{
+router.put('/:id', isGuest, async (req,res)=>{
     try{
         let id= req.params.id
         let content= req.body.content
@@ -70,11 +72,11 @@ router.put('/:id', isAdmin, async (req,res)=>{
 })
 
 
-router.delete('/:id', isAdmin, async (req, res) => {
+router.delete('/:id', isGuest, async (req, res) => {
     try {
-        await db.Tags.deleteblogtags(req.params.id)
-        await db.Blogs.deleteblog(req.params.id);
-        res.json("deleted")
+       await db.blogtags.deleteblogtags(req.params.id)
+       await db.Blogs.deleteblog(req.params.id);
+       res.status(200).json("Good to go!")
     } catch (e) {
         console.log(e)
         res.sendStatus(500)

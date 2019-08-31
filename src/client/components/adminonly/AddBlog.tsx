@@ -1,9 +1,11 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { ITag } from '../utils/interfaces'
+import { ITag } from '../../utils/interfaces'
+import { json, User } from '../../utils/api'
 
 const AddBlog: React.SFC<IAddBlogProps> = props => {
+
 
     const [title, setTitle] = useState<string>('');
     const [content, setContent] = useState<string>('');
@@ -13,32 +15,40 @@ const AddBlog: React.SFC<IAddBlogProps> = props => {
 
     const getTags = async () => {
         try {
-            let r = await fetch('/api/tags');
-            let tags = await r.json();
+            let tags = await json('/api/tags')
             setTags(tags);
         } catch (e) {
             console.log(e)
         }
     }
 
-    useEffect(() => { getTags(); }, [])
+    useEffect(() => {
+        //if means they are not logged in
+        if (!User || User.userid === null || User.role !== 'guest') {
+            props.history.replace('/login');
+        //else means they are logged in
+        }else{
+            getTags();
+        }
+    }, []);
+    //if there is no user obj or have no values or userid is null or role is not = admin
+   
 
 
     const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        let blog: { authorid: string, title: string, content: string, selectedtag: string} = {
+            authorid: User.userid,
+            title,
+            content,
+            selectedtag
+        };
         try {
-            await fetch('/api/blogs', {
-                method: 'POST',
-                headers: {
-                    'content-type': 'application/json'
-                },
-                body: JSON.stringify({ title, content, authorid: 2 })//hard coded authorid for now
-            })
-            props.history.push('/')//use props interface to access history props
+            let result = await json('/api/blogs', "POST", blog);
+            props.history.push('/')
         } catch (e) {
             console.log(e)
         }
-
     }
 
     return (
@@ -70,25 +80,19 @@ const AddBlog: React.SFC<IAddBlogProps> = props => {
                             )
                         })}
                     </select>
-
                     <button
                         onClick={handleSubmit}
                         className="btn border-info btn-block mt-3 shadow-lg text-info">Submit Blog</button>
-
-
                 </form>
             </section>
         </div>
     )
 }
 
-
 export default AddBlog
 
 export interface IAddBlogProps extends RouteComponentProps {
-
 }
-
  //dropdown for tags in add chirp
 
 

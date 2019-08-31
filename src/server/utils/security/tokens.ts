@@ -43,7 +43,7 @@ export const ValidateToken = async (token: string) => {
     //getone respond with an array with obj inside so we do array destructuring
     let [accesstokenid]:any  = await db.Tokens.findOneToken(payload.accesstokenid, token);
     //if there is no accesstokenid then we will throw an error
-    if (accesstokenid) {
+    if (!accesstokenid) {
         throw new Error('Invalid Token')
     } else {
         return payload;

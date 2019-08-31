@@ -4,7 +4,7 @@ import { Query } from '../index'
 //want to find that token associated with that user in that row in the table
 //double WHERE clause
 
-export const findOneToken = async(id:number, token:string)=>Query("SELECT * from tokens WHERE id=? AND token=?", [id, token])
+export const findOneToken = async(id:number, token:string)=>Query(`SELECT * from tokens WHERE id=${id} AND token=?`, [token])
 
 export const insertToken = async (userid:number)=>Query("INSERT INTO tokens (userid) VALUES(?)", [userid])
 

@@ -17,9 +17,8 @@ router.post('/', async (req, res) => {
         //user is obj on our body
         let email = req.body.email;
         let hash = HashPassword(req.body.password)
+        let name= req.body.name
         console.log(hash)
-        let name = req.body.name
-        console.log(req.body.name)
         //overwrite user.password with a hash password
         //await the result of getting the inserted user from our database
         let result: any = await db.Users.insertUser(name, email, hash);//insert a new user 

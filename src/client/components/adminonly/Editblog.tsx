@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { RouteComponentProps } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import { json} from '../../utils/api'
 
 const Editblog: React.SFC<IEditProps> = props => {
 
@@ -11,8 +12,7 @@ const Editblog: React.SFC<IEditProps> = props => {
 
     const getBlog = async () => {
         try {
-            let r = await fetch(`/api/blogs/${props.match.params.id}`)
-            let blog = await r.json();
+            let blog= await json(`/api/blogs/${props.match.params.id}`)
             setTitle(blog.title)
             setContent(blog.content)
         } catch (e) {
@@ -24,33 +24,27 @@ const Editblog: React.SFC<IEditProps> = props => {
 
     const handleEdit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        let blogedit: {title: string, content: string} = {
+            title,
+            content
+        };
         try {
-            await fetch(`/api/blogs/${props.match.params.id}`, {
-                method: 'PUT',
-                body: JSON.stringify({ title, content, authorid: 1 }),
-                headers: {
-                    "content-type": "application/json"
-                }
-            }).then(() => props.history.push('/'))
+            let result = await json(`/api/blogs/${props.match.params.id}`, "PUT", blogedit);
+            props.history.push('/editblog')
         } catch (e) {
             console.log(e)
         }
     }
+
     const handleDelete = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
-            await fetch(`/api/blogs/${props.match.params.id}`, {
-                method: 'DELETE',
-            })
-        props.history.push('/')
+            await json(`/api/blogs/${props.match.params.id}`, "DELETE");
+            props.history.push('/')//its not doing this and idk why
         } catch (e) {
             console.log(e)
         }
     }
-
-
-
-
 
     return (
         <>
@@ -71,9 +65,9 @@ const Editblog: React.SFC<IEditProps> = props => {
                 <button className="btn btn-outline-info"
                     onClick={handleEdit}
                 >Submit Changes</button>
-                <button 
-                onClick={handleDelete}
-                className="btn btn-outline-info ml-2">Delete Blog</button>
+                <button
+                    onClick={handleDelete}
+                    className="btn btn-outline-info ml-2">Delete Blog</button>
             </section>
         </>
     )

@@ -4,7 +4,7 @@ import { Query } from '../index'
 //you'll have one of these for each request you need to make to get, post, delete and then call them within your routes
 
 
-export const all = async ()=> Query('SELECT authors.name, blogs.* FROM blogs JOIN authors on blogs.authorid=authors.id')
+export const all = async ()=> Query('SELECT blogs.*, authors.name FROM blogs JOIN authors on blogs.authorid=authors.id ORDER BY blogs._created DESC')
 
 export const one = async (id:number)=>Query('SELECT authors.name, blogs.* from blogs JOIN authors on blogs.authorid=authors.id WHERE blogs.id=?', [id])
 

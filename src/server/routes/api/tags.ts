@@ -7,7 +7,7 @@ const router = Router()
 //GET BLOG TAGS
 router.get('/', async (req, res) => {
     try {
-        let tags = await db.Tags.getalltags();
+        let tags = await db.blogtags.getalltags();
         res.json(tags)
     } catch (e) {
         console.log(e);
@@ -18,9 +18,8 @@ router.get('/', async (req, res) => {
 //GET BLOG TAG
 router.get('/:blogid', async (req, res) => {
     try {
-        let [tag]: any = await db.Tags.getblogtag(req.params.blogid)
+        let [tag]: any = await db.blogtags.getblogtag(req.params.blogid)
         res.json(tag)
-        console.log(tag)
     } catch (e) {
         console.log(e);
         res.sendStatus(500)
