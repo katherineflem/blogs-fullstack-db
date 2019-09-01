@@ -19,16 +19,16 @@ const Header: React.SFC<IHeaderProps> = props => {
         <>
             <div className="row bg-dark mt-2 shadow">
                 <div className="col-sm-4 d-inline-flex justify-content-left">
-                    <NavLink to='/login' className="text-light">Login</NavLink>
+                    <NavLink to='/login' className="text-light mt-2">Login</NavLink>
                 </div>
                 <div className="col-sm-4 d-inline-flex justify-content-center">
-                    <h3 className="text-light">Foood Blog</h3>
+                    <h3 className="text-light mt-2">Foood Blog</h3>
                 </div>
                 <div className="col-sm-4 d-inline-flex justify-content-end">
                     <NavLink 
                     to='/login'
                     onClick={()=>localStorage.clear()}
-                    className="text-light">Logout</NavLink>
+                    className="text-light mt-2">Logout</NavLink>
 
                 </div>
             </div>
