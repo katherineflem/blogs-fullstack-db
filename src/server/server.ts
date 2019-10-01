@@ -24,7 +24,7 @@ app.get('*', (req, res) => {
 
 // if there is a port defined for us, use that, if not default to localhost3000
 //if this server deploys to somewhere else, then you can be provided with a port by that server
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 3001;
 //returns the server 
 app.listen(port, () => console.log(`Server listening on port: ${port}`));
 

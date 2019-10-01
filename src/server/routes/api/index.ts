@@ -3,10 +3,15 @@
 import { Router } from 'express';
 import blogsRouter from './blogs';
 import tagsRouter from './tags';
-import usersRouter from './users';
+import donateRouter from './donation'
 import * as passport from 'passport'
+import contactRouter from './contact'
 
 const router = Router()
+
+router.use('/contact', contactRouter)
+
+router.use('/donate', donateRouter)
 
 //any api requests will validate the token and user with this middleware
 router.use((req, res, next) => {
@@ -21,6 +26,7 @@ router.use('/blogs', blogsRouter);
 
 router.use('/tags', tagsRouter)
 
+// router.use('/donate'), donateRouter
 
 export default router;
 

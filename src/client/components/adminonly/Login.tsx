@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { json, SetAccessToken } from '../../utils/api';
+import { useState, useEffect} from 'react';
+import { json, User, SetAccessToken } from '../../utils/api';
 import { NavLink} from 'react-router-dom'
 import {RouteComponentProps} from 'react-router-dom'
 const Login: React.SFC<ILoginProps> = props => {
@@ -8,6 +8,9 @@ const Login: React.SFC<ILoginProps> = props => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('')
 
+   useEffect(()=>{
+       
+   })
     const handleLoginSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         try {
